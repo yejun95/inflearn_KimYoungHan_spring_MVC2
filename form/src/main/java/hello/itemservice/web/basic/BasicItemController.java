@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -19,6 +21,17 @@ import java.util.List;
 public class BasicItemController {
 
     private final ItemRepository itemRepository;
+
+    // 어떤 컨트롤러에서도 model에 같이 담긴다. - spring 기능
+    // ${regions.} 으로 접근 가능
+    @ModelAttribute("regions")
+    public Map<String, String> regions() {
+        Map<String, String> regions = new LinkedHashMap<>(); // 순서 보장
+        regions.put("SEOUL", "서울");
+        regions.put("BUSAN", "부산");
+        regions.put("JEJU", "제주");
+        return regions;
+    }
 
     @GetMapping
     public String items(Model model) {
@@ -56,6 +69,7 @@ public class BasicItemController {
     @PostMapping("add")
     public String saveV2(@ModelAttribute Item item, RedirectAttributes redirectAttributes, Model model) {
         log.info("item.open={}", item.getOpen());
+        log.info("item.regions={}", item.getRegions());
         Item saveItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", saveItem.getId()); // redirect 하면서 pathvariable 넘기기
         redirectAttributes.addAttribute("status", true); // url 뒤에 쿼리파라미터로 붙음, ex) ?status=true
