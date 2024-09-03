@@ -1,7 +1,8 @@
 - 인프런 김영한님의 MVC2 강의 기록을 위한 repo
 <br>
 
-## thymeleaf-basic directory
+## ✔️ thymeleaf-basic directory
+**학습 범위 : 5-1-1 ~ 5-1-19**
 - 타임리프 소개
 - 텍스트 - text, utext
 - 변수 - SpringEL
@@ -18,3 +19,21 @@
 - 템플릿 조각 - fragment
 - 템플릿 레이아웃1
 - 템플릿 레이아웃2
+<br>
+<hr>
+<br>
+
+## ✔️ form directory
+**학습 범위 : 5-2-1 ~ 5-2-10**
+- th:object
+- th:field
+- single checkbox
+- multi checkbox
+- radio button
+- select box
+<br>
+
+**중점 학습 내용**
+- form 태그 안에서 th:object 및 th:field를 이용한 데이터 조회, 전송
+
+- spring에서 @ModelAttribute를 전역으로 설정하여 어느 api 호출이던지 데이터 받아오기
