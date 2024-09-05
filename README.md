@@ -50,3 +50,13 @@
 **중점 학습 내용**
 - Locale 별 유연한 변경을 위한 국제화 적용
 - 타임리프에서 `th:text=#{}` 기능 활용
+<br>
+<hr>
+<br>
+
+## ✔️ validation directory
+**학습 범위 : 5-4-1 - 5-4-17**
+- 서버-클라이언트간 validation 점진적 변화 확인
+- Map으로 errors를 직접 담아 처리
+- BindingResult에 객체 담아 에러 처리
+- 
