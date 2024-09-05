@@ -1,4 +1,4 @@
-package hello.itemservice.web.basicV1;
+package hello.itemservice.web.basic;
 
 import hello.itemservice.domain.item.DeliveryCode;
 import hello.itemservice.domain.item.Item;
@@ -17,9 +17,9 @@ import java.util.*;
 
 @Slf4j
 @Controller
-@RequestMapping("/basicV1/items")
+@RequestMapping("/basicV2/items")
 @RequiredArgsConstructor
-public class ValidationItemControllerV1 {
+public class ValidationItemControllerV2 {
 
     private final ItemRepository itemRepository;
 
@@ -52,20 +52,20 @@ public class ValidationItemControllerV1 {
     public String items(Model model) {
         List<Item> items = itemRepository.findAll();
         model.addAttribute("items", items);
-        return "basicV1/items";
+        return "basicV2/items";
     }
 
     @GetMapping("/{itemId}")
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
-        return "basicV1/item";
+        return "basicV2/item";
     }
 
     @GetMapping("add")
     public String addForm(Model model) {
         model.addAttribute("item", new Item());
-        return "basicV1/addForm";
+        return "basicV2/addForm";
     }
 
     @PostMapping("add")
@@ -96,28 +96,28 @@ public class ValidationItemControllerV1 {
         //검증 실패 시 다시 입력 폼으로
         if (!errors.isEmpty()) {
             model.addAttribute("errors", errors);
-            return "basicV1/addForm";
+            return "basicV2/addForm";
         }
 
         //성공 로직
         Item saveItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", saveItem.getId()); // redirect 하면서 pathvariable 넘기기
         redirectAttributes.addAttribute("status", true); // url 뒤에 쿼리파라미터로 붙음, ex) ?status=true
-        return "redirect:/basicV1/items/{itemId}";
+        return "redirect:/basicV2/items/{itemId}";
     }
 
     @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
-        return "basicV1/editForm";
+        return "basicV2/editForm";
     }
 
     // @ModelAttribue : Param값을 객체로 맵핑
     @PostMapping("/{itemId}/edit")
     public String update(@PathVariable Long itemId, @ModelAttribute Item item) {
         itemRepository.update(itemId, item);
-        return "redirect:/basicV1/items/{itemId}"; // PRG 패턴 Post-Redirect-Get
+        return "redirect:/basicV2/items/{itemId}"; // PRG 패턴 Post-Redirect-Get
     }
 
     /**
