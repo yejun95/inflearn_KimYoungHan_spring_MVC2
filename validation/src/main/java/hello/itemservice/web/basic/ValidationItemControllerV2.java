@@ -107,7 +107,7 @@ public class ValidationItemControllerV2 {
         return "redirect:/basicV2/items/{itemId}";
     }
 
-    @PostMapping("add")
+//    @PostMapping("add")
     public String addItemV2(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         // BindingResult 위치는 Item 객체 뒤에 바로 와야한다.
 
@@ -127,6 +127,42 @@ public class ValidationItemControllerV2 {
             int resultPrice = item.getPrice() * item.getQuantity();
             if (resultPrice < 10000) {
                 bindingResult.addError(new ObjectError("item", null, null,"\"가격 * 수량의 합은 10,000원 이상이여야 합니다. 현재 값 = " + resultPrice));
+            }
+        }
+
+        //검증 실패 시 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "basicV2/addForm";
+        }
+
+        //성공 로직
+        Item saveItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", saveItem.getId()); // redirect 하면서 pathvariable 넘기기
+        redirectAttributes.addAttribute("status", true); // url 뒤에 쿼리파라미터로 붙음, ex) ?status=true
+        return "redirect:/basicV2/items/{itemId}";
+    }
+
+    @PostMapping("add")
+    public String addItemV3(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        // BindingResult 위치는 Item 객체 뒤에 바로 와야한다.
+
+        //검증 로직
+        if (!StringUtils.hasText(item.getItemName())) {
+            bindingResult.addError(new FieldError("item", "itemName", item.getItemName(), false, new String[]{"required.item.itemName"}, null, null ));
+        }
+        if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
+            bindingResult.addError(new FieldError("item", "price", item.getPrice(), false, new String[]{"range.item.price"}, new Object[]{1000, 1000000}, null));
+        }
+        if (item.getQuantity() == null || item.getQuantity() >= 9999) {
+            bindingResult.addError(new FieldError("item", "quantity", item.getQuantity(), false, new String[]{"max.item.quantity"}, new Object[]{9999}, null));
+        }
+
+        //복합 룰 검증
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.addError(new ObjectError("item", new String[]{"totalPriceMin"}, new Object[]{100000, resultPrice},null));
             }
         }
 
