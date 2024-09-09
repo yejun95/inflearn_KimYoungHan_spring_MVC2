@@ -25,6 +25,7 @@ import java.util.*;
 public class ValidationItemControllerV2 {
 
     private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator;
 
     // 어떤 컨트롤러에서도 model에 같이 담긴다. - spring 기능
     // ${regions.} 으로 접근 가능
@@ -179,7 +180,7 @@ public class ValidationItemControllerV2 {
         return "redirect:/basicV2/items/{itemId}";
     }
 
-    @PostMapping("add")
+//    @PostMapping("add")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         // BindingResult 위치는 Item 객체 뒤에 바로 와야한다.
 
@@ -204,6 +205,24 @@ public class ValidationItemControllerV2 {
                 bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
             }
         }
+
+        //검증 실패 시 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "basicV2/addForm";
+        }
+
+        //성공 로직
+        Item saveItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", saveItem.getId()); // redirect 하면서 pathvariable 넘기기
+        redirectAttributes.addAttribute("status", true); // url 뒤에 쿼리파라미터로 붙음, ex) ?status=true
+        return "redirect:/basicV2/items/{itemId}";
+    }
+
+    @PostMapping("add")
+    public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+
+        itemValidator.validate(item, bindingResult);
 
         //검증 실패 시 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
