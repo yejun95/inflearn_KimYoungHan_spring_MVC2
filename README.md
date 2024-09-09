@@ -59,4 +59,14 @@
 - 서버-클라이언트간 validation 점진적 변화 확인
 - Map으로 errors를 직접 담아 처리
 - BindingResult에 객체 담아 에러 처리
-- 
+  - error의 properties 설정
+  - addError
+  - rejectValue
+  - MessageCodesResolver
+  - level 단위로 나눈 에러 메세지
+<br>
+
+- validator 분리
+  - validator
+  - WebDataBinder
+  - @Validated, @Valid
