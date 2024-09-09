@@ -13,6 +13,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,6 +28,13 @@ public class ValidationItemControllerV2 {
 
     private final ItemRepository itemRepository;
     private final ItemValidator itemValidator;
+
+    // 모든 api에 대해 먼저 실행됨
+    // 글로벌 설정은 별도 필요
+    @InitBinder
+    public void init(WebDataBinder dataBinder) {
+        dataBinder.addValidators(itemValidator);
+    }
 
     // 어떤 컨트롤러에서도 model에 같이 담긴다. - spring 기능
     // ${regions.} 으로 접근 가능
@@ -219,10 +228,26 @@ public class ValidationItemControllerV2 {
         return "redirect:/basicV2/items/{itemId}";
     }
 
-    @PostMapping("add")
+//    @PostMapping("add")
     public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
         itemValidator.validate(item, bindingResult);
+
+        //검증 실패 시 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "basicV2/addForm";
+        }
+
+        //성공 로직
+        Item saveItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", saveItem.getId()); // redirect 하면서 pathvariable 넘기기
+        redirectAttributes.addAttribute("status", true); // url 뒤에 쿼리파라미터로 붙음, ex) ?status=true
+        return "redirect:/basicV2/items/{itemId}";
+    }
+
+    @PostMapping("add")
+    public String addItemV6(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
         //검증 실패 시 다시 입력 폼으로
         if (bindingResult.hasErrors()) {

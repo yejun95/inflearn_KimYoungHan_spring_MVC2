@@ -9,6 +9,7 @@ import org.springframework.validation.Validator;
 @Component
 public class ItemValidator implements Validator {
 
+    // WebDataBinder에서 맞는 객체가 넘어오는지 체크하는 기능
     @Override
     public boolean supports(Class<?> clazz) {
         return Item.class.isAssignableFrom(clazz); // 자식 클래스까지 커버
