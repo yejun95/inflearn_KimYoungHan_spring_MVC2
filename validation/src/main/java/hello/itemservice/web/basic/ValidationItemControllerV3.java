@@ -1,9 +1,6 @@
 package hello.itemservice.web.basic;
 
-import hello.itemservice.domain.item.DeliveryCode;
-import hello.itemservice.domain.item.Item;
-import hello.itemservice.domain.item.ItemRepository;
-import hello.itemservice.domain.item.ItemType;
+import hello.itemservice.domain.item.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +49,33 @@ public class ValidationItemControllerV3 {
         return "basicV3/addForm";
     }
 
-    @PostMapping("add")
+//    @PostMapping("add")
     public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+
+        //복합 룰 검증
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+            }
+        }
+
+        //검증 실패 시 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "basicV3/addForm";
+        }
+
+        //성공 로직
+        Item saveItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", saveItem.getId()); // redirect 하면서 pathvariable 넘기기
+        redirectAttributes.addAttribute("status", true); // url 뒤에 쿼리파라미터로 붙음, ex) ?status=true
+        return "redirect:/basicV3/items/{itemId}";
+    }
+
+    // groups 적용
+    @PostMapping("add")
+    public String addItem2(@Validated(SaveCheck.class) @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         //복합 룰 검증
         if (item.getPrice() != null && item.getQuantity() != null) {
@@ -84,8 +106,29 @@ public class ValidationItemControllerV3 {
     }
 
     // @ModelAttribue : Param값을 객체로 맵핑
-    @PostMapping("/{itemId}/edit")
+//    @PostMapping("/{itemId}/edit")
     public String update(@PathVariable Long itemId, @Validated @ModelAttribute Item item, BindingResult bindingResult) {
+
+        //복합 룰 검증
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "basicV3/editForm";
+        }
+
+        itemRepository.update(itemId, item);
+        return "redirect:/basicV3/items/{itemId}"; // PRG 패턴 Post-Redirect-Get
+    }
+
+    // groups 적용
+    @PostMapping("/{itemId}/edit")
+    public String updateV2(@PathVariable Long itemId, @Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
 
         //복합 룰 검증
         if (item.getPrice() != null && item.getQuantity() != null) {
