@@ -18,6 +18,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -54,6 +55,14 @@ public class ValidationItemControllerV3 {
     @PostMapping("add")
     public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
+        //복합 룰 검증
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+            }
+        }
+
         //검증 실패 시 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
@@ -76,7 +85,21 @@ public class ValidationItemControllerV3 {
 
     // @ModelAttribue : Param값을 객체로 맵핑
     @PostMapping("/{itemId}/edit")
-    public String update(@PathVariable Long itemId, @ModelAttribute Item item) {
+    public String update(@PathVariable Long itemId, @Validated @ModelAttribute Item item, BindingResult bindingResult) {
+
+        //복합 룰 검증
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "basicV3/editForm";
+        }
+
         itemRepository.update(itemId, item);
         return "redirect:/basicV3/items/{itemId}"; // PRG 패턴 Post-Redirect-Get
     }
