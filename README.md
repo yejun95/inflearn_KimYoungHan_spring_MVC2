@@ -55,7 +55,7 @@
 <br>
 
 ## ✔️ validation directory
-**학습 범위 : 5-4-1 - 5-4-17**
+**학습 범위 : 5-4-1 - 5-5-14**
 - 서버-클라이언트간 validation 점진적 변화 확인
 - Map으로 errors를 직접 담아 처리
 - BindingResult에 객체 담아 에러 처리
@@ -70,3 +70,8 @@
   - validator
   - WebDataBinder
   - @Validated, @Valid
+<br>
+
+- Been Validation
+  - groups : 동일 객체에 다른 validation을 주는 경우
+  - 폼 전송 모델 객체 별도 생성
