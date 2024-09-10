@@ -9,6 +9,9 @@ import org.hibernate.validator.constraints.Range;
 @Data
 public class ItemUpdateForm {
 
+    @NotNull
+    private Long id;
+
     @NotBlank
     private String itemName;
 
