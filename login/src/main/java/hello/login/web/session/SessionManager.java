@@ -38,7 +38,7 @@ public class SessionManager {
         if (sessionCookie == null) {
             return null;
         }
-        return sessionStore.get(sessionCookie.getValue());
+    return sessionStore.get(sessionCookie.getValue());
     }
 
     /**
