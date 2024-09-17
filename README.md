@@ -75,3 +75,16 @@
 - Been Validation
   - groups : 동일 객체에 다른 validation을 주는 경우
   - 폼 전송 모델 객체 별도 생성
+<br>
+<hr>
+<br>
+
+## ✔️ login directory
+**학습 범위 : 5-6-1 -**
+- 로그인 기능
+- 쿠키와 세션
+- 세션 정보와 타임아웃 설정
+- Filter
+  - Log Filter
+  - 인증 체크 필터
+  - white list
