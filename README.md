@@ -98,4 +98,16 @@
 <hr>
 <br>
 
-## ✔️ 
+## ✔️ exception directory
+**학습 범위 : 5-8-1 - **
+- servlet 예외 처리
+  - WebServerCostomizer
+  - DispatcherType - filter 중복 호출 방지
+<br>
+
+- spring interceptor 중복 처리 방지
+  - excludePathPatterns에 에러페이지 경로를 직접 넣음
+<br>
+
+- springBoot 오류페이지 자동 찾기
+  - BasicErrorController
