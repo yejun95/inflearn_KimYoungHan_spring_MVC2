@@ -80,7 +80,7 @@
 <br>
 
 ## ✔️ login directory
-**학습 범위 : 5-6-1 -**
+**학습 범위 : 5-6-1 - 5-7-8**
 - 로그인 기능
 - 쿠키와 세션
 - 세션 정보와 타임아웃 설정
@@ -88,3 +88,14 @@
   - Log Filter
   - 인증 체크 필터
   - white list
+<br>
+
+- Interceptor
+  - Log Interceptor
+  - Login Interceptor
+  - ArgumentResolver (Login 세션 체크를 Annotation으로 처리)
+<br>
+<hr>
+<br>
+
+## ✔️ 
