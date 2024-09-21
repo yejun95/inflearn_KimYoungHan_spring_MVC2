@@ -15,27 +15,30 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class ApiExceptionV2Controller {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ErrorResult illegalExHandler(IllegalArgumentException e) {
-        log.error("[exceptionHandler] ex", e);
-        return new ErrorResult("BAD", e.getMessage());
-
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<ErrorResult> userExHandler(UserException e) {
-        log.error("[exceptionHandler] ex", e);
-        ErrorResult errorResult = new ErrorResult("USER-EX", e.getMessage());
-        return new ResponseEntity(errorResult, HttpStatus.BAD_REQUEST);
-    }
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler
-    public ErrorResult runtimeExHandler(Exception e) { //최상위 Exception이여서 설정 안된 예외는 다 여기로 처리됨
-        log.error("[exceptionHandler] ex", e);
-        return new ErrorResult("Ex", "내부 오류");
-    }
+    /**
+     * ExControllerAdvice에서 대신 적용함
+     */
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    public ErrorResult illegalExHandler(IllegalArgumentException e) {
+//        log.error("[exceptionHandler] ex", e);
+//        return new ErrorResult("BAD", e.getMessage());
+//
+//    }
+//
+//    @ExceptionHandler
+//    public ResponseEntity<ErrorResult> userExHandler(UserException e) {
+//        log.error("[exceptionHandler] ex", e);
+//        ErrorResult errorResult = new ErrorResult("USER-EX", e.getMessage());
+//        return new ResponseEntity(errorResult, HttpStatus.BAD_REQUEST);
+//    }
+//
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler
+//    public ErrorResult runtimeExHandler(Exception e) { //최상위 Exception이여서 설정 안된 예외는 다 여기로 처리됨
+//        log.error("[exceptionHandler] ex", e);
+//        return new ErrorResult("Ex", "내부 오류");
+//    }
 
     @GetMapping("/api2/members/{id}")
     public MemberDto getMember(@PathVariable("id") String id) {
