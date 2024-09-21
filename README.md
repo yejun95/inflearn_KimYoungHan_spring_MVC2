@@ -99,7 +99,7 @@
 <br>
 
 ## ✔️ exception directory
-**학습 범위 : 5-8-1 - **
+**학습 범위 : 5-8-1 - 5-9-9**
 - servlet 예외 처리
   - WebServerCostomizer
   - DispatcherType - filter 중복 호출 방지
@@ -111,3 +111,28 @@
 
 - springBoot 오류페이지 자동 찾기
   - BasicErrorController
+<br>
+
+- api 예외 처리
+  - HTML을 반환할 때
+  - JSON을 반환할 때
+<br>
+
+- HandlerExceptionResolver : BasicController의 상위 호환급
+  - BasicController 보다 더 세밀하고 복잡하게 짤 수 있음 (HTML을 반환 시에 편한 방법임)
+  - 에러 응답이 WAS까지 넘어가지 않아서 필터, 인터셉트가 중복으로 호출되지 않음
+<br>
+
+- Spring이 제공하는 Exception Resolver
+  - 기존 보다 로직을 손쉽게 처리 가능
+  - ResponseStatusExceptionResolver
+  - DefaultHandlerExceptionResolver : Spring이 내부에서 기본적으로 처리해주는 예외 처리 (자동)
+  - ExceptionHandlerExceptionResolver : 중요! -> @ExceptionHandler로 사용, 3가지 중 우선 순위가 제일 높다.
+<br>
+
+- @ControllerAdvice, @RestControllerAdvice
+  - controller에서 호출되는 에러를 한곳에러 처리 가능하게함
+  - controller 대상 컨트롤러 지정/미지정 가능
+    - controller / RestController
+    - 패키지 범위
+    - 특정 클래스
