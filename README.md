@@ -141,7 +141,26 @@
 <br>
 
 ## ✔️ typeconverter directory
-**학습 범위 : 5-10-1**
+**학습 범위 : 5-10-1 - 5-10-11**
+- 💡 해당 학습에서 사용하는 converter와 JSN객체를 다루는 HttpMessageConverter는 다른 것!!
+
 - converter 인터페이스 직접 구현
 
 - DefaultConversionService : 기본 converter 및 직접 구현한 converter 추가 가능
+
+- thymeleaf에 converter 적용한 것 출력하기
+
+- Formatter
+  - FormattingConversionService
+  - DefaultFormattingConversionService -> converter와 formatter를 같이 쓸 수 있게함
+<br>
+
+- 스프링이 제공하는 기본 formatter
+  - @NumberFormat
+  - @DateTimeFormat
+<br>
+<hr>
+<br>
+
+## ✔️ upload directory
+**학습 범위 : 5-11-1 - 5-11-7**
