@@ -136,3 +136,12 @@
     - controller / RestController
     - 패키지 범위
     - 특정 클래스
+<br>
+<hr>
+<br>
+
+## ✔️ typeconverter directory
+**학습 범위 : 5-10-1**
+- converter 인터페이스 직접 구현
+
+- DefaultConversionService : 기본 converter 및 직접 구현한 converter 추가 가능
