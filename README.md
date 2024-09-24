@@ -164,3 +164,17 @@
 
 ## ✔️ upload directory
 **학습 범위 : 5-11-1 - 5-11-7**
+- controllerV1 : 서블릿과 파일업로드1
+  - 파일 업로드 시 출력되는 로그 확인
+<br>
+
+- controllerV2 : 서블릿과 파일업로드2
+  - 로컬에 저장
+<br>
+
+- SpringController : 스프링을 이용한 간단한 파일 업로드
+<br>
+
+- ItemController : 스프링을 이용한 파일 업로드 및 다운로드
+  - 사용자 저장 파일 이름, 서버 저장 파일 이름을 구분
+  - FileStore 클래스에 파일 관련 메서드 분리
