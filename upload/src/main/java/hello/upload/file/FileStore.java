@@ -41,12 +41,12 @@ public class FileStore {
         }
 
         String originalFilename = multipartFile.getOriginalFilename();
-        String storeFileName = createStroeFileName(originalFilename);
+        String storeFileName = createStoreFileName(originalFilename);
         multipartFile.transferTo(new File(getFullPath(storeFileName)));
         return new UploadFile(originalFilename, storeFileName);
     }
 
-    private String createStroeFileName(String originalFilename) {
+    private String createStoreFileName(String originalFilename) {
         //서버에 저장하는 파일명 : qwef-qwefqwe-fqwe.확장자
         String uuid = UUID.randomUUID().toString();
         String ext = extracted(originalFilename);

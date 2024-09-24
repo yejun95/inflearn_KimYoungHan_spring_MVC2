@@ -77,7 +77,7 @@ public class ItemController {
         log.info("uploadFileName={}", uploadFileName);
 
         String encodedUploadFileName = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8);
-        String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
+        String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\""; // 다운로드 하기 위한 규약
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(urlResource);
