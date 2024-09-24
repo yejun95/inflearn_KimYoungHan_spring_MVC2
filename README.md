@@ -142,7 +142,7 @@
 
 ## ✔️ typeconverter directory
 **학습 범위 : 5-10-1 - 5-10-11**
-- 💡 해당 학습에서 사용하는 converter와 JSN객체를 다루는 HttpMessageConverter는 다른 것!!
+- 💡 해당 학습에서 사용하는 converter와 JSON객체를 다루는 HttpMessageConverter는 다른 것!!
 
 - converter 인터페이스 직접 구현
 
